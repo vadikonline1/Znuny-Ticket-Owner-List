@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.1">
+    <Name>Znuny-Ticket-Owner-List</Name>
+    <Version>7.3.1</Version>
+    <Vendor>vadikonline1</Vendor>
+    <URL>https://github.com/vadikonline1/Znuny-Ticket-Owner-List</URL>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
+    <Description Lang="en">
+        Populate previous and current ticket owner in dynamic field.
+    </Description>
+    <Framework>7.3.x</Framework>
+    <CodeInstall Type="post">
+        my $ZnunyHelperObject = $Kernel::OM-&gt;Get('Kernel::System::ZnunyHelper');
+
+        my @DynamicFields = (
+            {
+                Name       =&gt; 'InvolvedOwner',
+                Label      =&gt; &quot;Involved Owner&quot;,
+                ObjectType =&gt; 'Ticket',
+                FieldType  =&gt; 'Text',
+                Config     =&gt; {
+                    DefaultValue =&gt; &quot;&quot;,
+                },
+            },
+        );
+
+        $ZnunyHelperObject-&gt;_DynamicFieldsCreateIfNotExists(@DynamicFields);
+
+        my %Screens = (
+            'AgentTicketZoom' =&gt; {
+                InvolvedOwner =&gt; 1,
+            },
+        );
+
+        $ZnunyHelperObject-&gt;_DynamicFieldsScreenEnable(%Screens);
+    </CodeInstall>
+    <CodeUninstall Type="post">
+        my $ZnunyHelperObject = $Kernel::OM-&gt;Get('Kernel::System::ZnunyHelper');
+
+        my %Screens = (
+            'AgentTicketZoom' =&gt; {
+                InvolvedOwner =&gt; 1,
+            },
+        );
+
+        $ZnunyHelperObject-&gt;_DynamicFieldsScreenDisable(%Screens);
+    </CodeUninstall>
+    <BuildDate>2026-04-27 14:53:44</BuildDate>
+    <BuildHost>znuny.vp.intranet.paypoint.md</BuildHost>
+    <Filelist>
+        <File Location="Kernel/Config/Files/XML/ZZZTicketOwnerList.xml" Permission="660" Encode="Base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPG90cnNfY29uZmlnIHZlcnNpb249IjIuMCIgaW5pdD0iQ29uZmlnIj4KICAgPFNldHRpbmcgTmFtZT0iVGlja2V0OjpFdmVudE1vZHVsZVBvc3QjIyMzMTIwLVRpY2tldE93bmVyTGlzdCIgUmVxdWlyZWQ9IjAiIFZhbGlkPSIxIj4KICAgICAgICA8RGVzY3JpcHRpb24gVHJhbnNsYXRhYmxlPSIxIj4KICAgICAgICAgICAgUG9wdWxhdGUgcHJldmlvdXMgYW5kIGN1cnJlbnQgdGlja2V0IG93bmVyIGluIGR5bmFtaWMgZmllbGQuCiAgICAgICAgPC9EZXNjcmlwdGlvbj4KICAgICAgICA8TmF2aWdhdGlvbj5Db3JlOjpFdmVudDo6VGlja2V0PC9OYXZpZ2F0aW9uPgogICAgICAgIDxWYWx1ZT4KICAgICAgICAgICAgPEhhc2g+CiAgICAgICAgICAgICAgICA8SXRlbSBLZXk9Ik1vZHVsZSI+S2VybmVsOjpTeXN0ZW06OlRpY2tldDo6RXZlbnQ6OlRpY2tldE93bmVyTGlzdDwvSXRlbT4KICAgICAgICAgICAgICAgIDxJdGVtIEtleT0iRXZlbnQiPlRpY2tldE93bmVyVXBkYXRlPC9JdGVtPgogICAgICAgICAgICAgICAgPEl0ZW0gS2V5PSJEeW5hbWljRmllbGQiPkludm9sdmVkT3duZXI8L0l0ZW0+CiAgICAgICAgICAgICAgICA8SXRlbSBLZXk9IlRyYW5zYWN0aW9uIj4xPC9JdGVtPgogICAgICAgICAgICA8L0hhc2g+CiAgICAgICAgPC9WYWx1ZT4KICAgIDwvU2V0dGluZz4KPC9vdHJzX2NvbmZpZz4=</File>
+        <File Location="Custom/Kernel/System/Ticket/Event/TicketOwnerList.pm" Permission="660" Encode="Base64">cGFja2FnZSBLZXJuZWw6OlN5c3RlbTo6VGlja2V0OjpFdmVudDo6VGlja2V0T3duZXJMaXN0OwoKdXNlIHN0cmljdDsKdXNlIHdhcm5pbmdzOwoKb3VyIEBPYmplY3REZXBlbmRlbmNpZXMgPSAoCiAgICAnS2VybmVsOjpTeXN0ZW06OkxvZycsCiAgICAnS2VybmVsOjpTeXN0ZW06OlRpY2tldCcsCiAgICAnS2VybmVsOjpTeXN0ZW06OkR5bmFtaWNGaWVsZCcsCiAgICAnS2VybmVsOjpTeXN0ZW06OkR5bmFtaWNGaWVsZDo6QmFja2VuZCcsCik7CgpzdWIgbmV3IHsKICAgIG15ICggJFR5cGUsICVQYXJhbSApID0gQF87CiAgICByZXR1cm4gYmxlc3Mge30sICRUeXBlOwp9CgpzdWIgUnVuIHsKICAgIG15ICggJFNlbGYsICVQYXJhbSApID0gQF87CgogICAgbXkgJExvZ09iamVjdCA9ICRLZXJuZWw6Ok9NLT5HZXQoJ0tlcm5lbDo6U3lzdGVtOjpMb2cnKTsKCiAgICBmb3IgbXkgJE5lZWRlZCAocXcoRGF0YSBFdmVudCBDb25maWcgVXNlcklEKSkgewogICAgICAgIHJldHVybiBpZiAhJFBhcmFteyROZWVkZWR9OwogICAgfQoKICAgIHJldHVybiAxIGlmICRQYXJhbXtFdmVudH0gbmUgJ1RpY2tldE93bmVyVXBkYXRlJzsKCiAgICBteSAkVGlja2V0SUQgPSAkUGFyYW17RGF0YX0tPntUaWNrZXRJRH0gfHwgcmV0dXJuOwoKICAgIG15ICREeW5hbWljRmllbGROYW1lID0gJFBhcmFte0NvbmZpZ30tPntEeW5hbWljRmllbGR9IHx8IHJldHVybjsKCiAgICBteSAkRHluYW1pY0ZpZWxkT2JqZWN0ICAgICAgICA9ICRLZXJuZWw6Ok9NLT5HZXQoJ0tlcm5lbDo6U3lzdGVtOjpEeW5hbWljRmllbGQnKTsKICAgIG15ICREeW5hbWljRmllbGRCYWNrZW5kT2JqZWN0ID0gJEtlcm5lbDo6T00tPkdldCgnS2VybmVsOjpTeXN0ZW06OkR5bmFtaWNGaWVsZDo6QmFja2VuZCcpOwoKICAgIG15ICREeW5hbWljRmllbGQgPSAkRHluYW1pY0ZpZWxkT2JqZWN0LT5EeW5hbWljRmllbGRHZXQoCiAgICAgICAgTmFtZSA9PiAkRHluYW1pY0ZpZWxkTmFtZSwKICAgICkgfHwgcmV0dXJuOwoKICAgIHJldHVybiBpZiAkRHluYW1pY0ZpZWxkLT57T2JqZWN0VHlwZX0gbmUgJ1RpY2tldCc7CiAgICByZXR1cm4gaWYgJER5bmFtaWNGaWVsZC0+e0ZpZWxkVHlwZX0gbmUgJ1RleHQnOwoKICAgIG15ICRUaWNrZXRPYmplY3QgPSAkS2VybmVsOjpPTS0+R2V0KCdLZXJuZWw6OlN5c3RlbTo6VGlja2V0Jyk7CgogICAgbXkgQE93bmVycyA9ICRUaWNrZXRPYmplY3QtPlRpY2tldE93bmVyTGlzdCgKICAgICAgICBUaWNrZXRJRCA9PiAkVGlja2V0SUQsCiAgICApOwoKICAgIG15IEBPd25lckFycmF5OwogICAgZm9yIG15ICRPd25lciAoQE93bmVycykgewogICAgICAgIG5leHQgaWYgISRPd25lci0+e1VzZXJGdWxsbmFtZX07CiAgICAgICAgcHVzaCBAT3duZXJBcnJheSwgJE93bmVyLT57VXNlckZ1bGxuYW1lfTsKICAgIH0KCiAgICBteSAlU2VlbjsKICAgIEBPd25lckFycmF5ID0gZ3JlcCB7ICEkU2VlbnskX30rKyB9IEBPd25lckFycmF5OwoKICAgIG15ICRPd25lclN0cmcgPSBqb2luKCcsICcsIEBPd25lckFycmF5KTsKCiAgICAkRHluYW1pY0ZpZWxkQmFja2VuZE9iamVjdC0+VmFsdWVTZXQoCiAgICAgICAgRHluYW1pY0ZpZWxkQ29uZmlnID0+ICREeW5hbWljRmllbGQsCiAgICAgICAgT2JqZWN0SUQgICAgICAgICAgID0+ICRUaWNrZXRJRCwKICAgICAgICBWYWx1ZSAgICAgICAgICAgICAgPT4gJE93bmVyU3RyZywKICAgICAgICBVc2VySUQgICAgICAgICAgICAgPT4gJFBhcmFte1VzZXJJRH0sCiAgICApOwoKICAgIHJldHVybiAxOwp9CgoxOw==</File>
+    </Filelist>
+</otrs_package>
