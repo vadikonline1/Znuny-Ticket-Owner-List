@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="2.0" init="Config">
    <Setting Name="Ticket::EventModulePost###3120-TicketOwnerList" Required="0" Valid="1">
-        <Description Translatable="1">Populate previous and current ticket owner in dynamic field.</Description>
+        <Description Translatable="1">
+            Populate previous and current ticket owner in dynamic field.
+        </Description>
         <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
