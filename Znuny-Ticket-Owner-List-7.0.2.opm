@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.1">
     <Name>Znuny-Ticket-Owner-List</Name>
-    <Version>7.3.0</Version>
+    <Version>7.3.1</Version>
     <Vendor>vadikonline1</Vendor>
     <URL>https://github.com/vadikonline1/Znuny-Ticket-Owner-List</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
 
-    <ChangeLog Date="2026-04-27 00:00:01" Version="7.3.0">
-        Compatibility update for Znuny 7.3 + code cleanup.
-    </ChangeLog>
-
-    <!-- 🔥 IMPORTANT -->
     <Framework>7.3.x</Framework>
 
     <Description Lang="en">
@@ -56,7 +51,7 @@
     </CodeUninstall>
 
     <Filelist>
-		<File Location="Kernel/Config/Files/XML/ZZZTicketOwnerList.xml" Permission="660"/>
-		<File Location="Custom/Kernel/System/Ticket/Event/TicketOwnerList.pm" Permission="660"/>
-	</Filelist>
+        <File Location="Kernel/Config/Files/XML/ZZZTicketOwnerList.xml" Permission="660"/>
+        <File Location="Custom/Kernel/System/Ticket/Event/TicketOwnerList.pm" Permission="660"/>
+    </Filelist>
 </otrs_package>
