@@ -1,73 +1,67 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.1">
     <Name>Znuny-Ticket-Owner-List</Name>
-    <Version>7.0.2</Version>
-    <Vendor>mo-azfar</Vendor>
+    <Version>7.3.0</Version>
+    <Vendor>mo-azfar (modified)</Vendor>
     <URL>https://github.com/mo-azfar/Znuny-Ticket-Owner-List</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <ChangeLog Date="2023-08-11 00:00:01" Version="7.0.1">New package.</ChangeLog>
-    <ChangeLog Date="2023-09-08 00:00:01" Version="7.0.2">Add package code. Thanks to dennykorsukewitz (Znuny) for introduce it out</ChangeLog>
-    <Description Lang="en">Populate previous and current ticket owner in dynamic field..</Description>
-    <Framework>7.0.x</Framework>
-    <IntroInstall Lang="en" Title="Install Information" Type="pre">
-        &lt;br&gt;
-        &lt;b&gt;WELCOME&lt;/b&gt;
-        &lt;br&gt;
-        &lt;br&gt;
-        You are about to install the package Znuny-Ticket-Owner-List.Check &lt;a href='https://github.com/mo-azfar/Znuny-Ticket-Owner-List' target='_blank'&gt;README&lt;/a&gt;&lt;br&gt;
-        &lt;br&gt;
-        DynamicField - InvolvedOwner will be created.
-        &lt;br&gt;
-        ((enjoy))&lt;br&gt;
-        &lt;br&gt;
-    </IntroInstall>
-    <IntroUninstall Lang="en" Title="Install Information" Type="pre">
-        &lt;br&gt;
-        &lt;br&gt;
-        You are about to removing the package Znuny-Ticket-Owner-List.&lt;br&gt;
-        &lt;br&gt;
-        &lt;br&gt;
-        DynamicField - InvolvedOwner will be not deleted. However, it will be removed from the Tikcet Zoom screen.
-        &lt;br&gt;
-        ((bye))&lt;br&gt;
-        &lt;br&gt;
-    </IntroUninstall>
-    <CodeInstall Type="post">
-my $ZnunyHelperObject = $Kernel::OM-&gt;Get('Kernel::System::ZnunyHelper');
-#create dynamic field ticket InvolvedOwner
-my @DynamicFields = (
-        {
-            Name       =&gt; 'InvolvedOwner',
-            Label      =&gt; &quot;Involved Owner&quot;,
-            ObjectType =&gt; 'Ticket',
-            FieldType  =&gt; 'Text',
-            Config     =&gt; {
-                DefaultValue =&gt; &quot;&quot;,
-            },
-        },
-    );
-my $Success1 = $ZnunyHelperObject-&gt;_DynamicFieldsCreateIfNotExists( @DynamicFields );
 
-my %Screens = (
-        'AgentTicketZoom' =&gt; {
-            InvolvedOwner =&gt; 1,
-        },
-    );
-my $Success2 = $ZnunyHelperObject-&gt;_DynamicFieldsScreenEnable(%Screens);
-</CodeInstall>
+    <ChangeLog Date="2026-04-27 00:00:01" Version="7.3.0">
+        Compatibility update for Znuny 7.3 + code cleanup.
+    </ChangeLog>
+
+    <!-- 🔥 IMPORTANT -->
+    <Framework>7.3.x</Framework>
+
+    <Description Lang="en">
+        Populate previous and current ticket owner in dynamic field.
+    </Description>
+
+    <CodeInstall Type="post">
+        my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+
+        my @DynamicFields = (
+            {
+                Name       => 'InvolvedOwner',
+                Label      => "Involved Owner",
+                ObjectType => 'Ticket',
+                FieldType  => 'Text',
+                Config     => {
+                    DefaultValue => "",
+                },
+            },
+        );
+
+        $ZnunyHelperObject->_DynamicFieldsCreateIfNotExists(@DynamicFields);
+
+        my %Screens = (
+            'AgentTicketZoom' => {
+                InvolvedOwner => 1,
+            },
+        );
+
+        $ZnunyHelperObject->_DynamicFieldsScreenEnable(%Screens);
+    </CodeInstall>
+
     <CodeUninstall Type="post">
-my $ZnunyHelperObject = $Kernel::OM-&gt;Get('Kernel::System::ZnunyHelper');
-my %Screens = (
-        'AgentTicketZoom' =&gt; {
-            InvolvedOwner =&gt; 1,
-        },
-    );
-my $Success1 =  $ZnunyHelperObject-&gt;_DynamicFieldsScreenDisable(%Screens);
-</CodeUninstall>
-    <BuildDate>2023-09-08 14:28:44</BuildDate>
-    <BuildHost>app.myserver.com</BuildHost>
+        my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+
+        my %Screens = (
+            'AgentTicketZoom' => {
+                InvolvedOwner => 1,
+            },
+        );
+
+        $ZnunyHelperObject->_DynamicFieldsScreenDisable(%Screens);
+    </CodeUninstall>
+
     <Filelist>
-        <File Location="Kernel/Config/Files/XML/ZZZTicketOwnerList.xml" Permission="660" Encode="Base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPG90cnNfY29uZmlnIHZlcnNpb249IjIuMCIgaW5pdD0iQ29uZmlnIj4KICAgPFNldHRpbmcgTmFtZT0iVGlja2V0OjpFdmVudE1vZHVsZVBvc3QjIyMzMTIwLVRpY2tldE93bmVyTGlzdCIgUmVxdWlyZWQ9IjAiIFZhbGlkPSIxIj4KICAgICAgICA8RGVzY3JpcHRpb24gVHJhbnNsYXRhYmxlPSIxIj5Qb3B1bGF0ZSBwcmV2aW91cyBhbmQgY3VycmVudCB0aWNrZXQgb3duZXIgaW4gZHluYW1pYyBmaWVsZC48L0Rlc2NyaXB0aW9uPgogICAgICAgIDxOYXZpZ2F0aW9uPkNvcmU6OkV2ZW50OjpUaWNrZXQ8L05hdmlnYXRpb24+CiAgICAgICAgPFZhbHVlPgogICAgICAgICAgICA8SGFzaD4KICAgICAgICAgICAgICAgIDxJdGVtIEtleT0iTW9kdWxlIj5LZXJuZWw6OlN5c3RlbTo6VGlja2V0OjpFdmVudDo6VGlja2V0T3duZXJMaXN0PC9JdGVtPgogICAgICAgICAgICAgICAgPEl0ZW0gS2V5PSJFdmVudCI+VGlja2V0T3duZXJVcGRhdGU8L0l0ZW0+CiAgICAgICAgICAgICAgICA8SXRlbSBLZXk9IkR5bmFtaWNGaWVsZCI+SW52b2x2ZWRPd25lcjwvSXRlbT4KICAgICAgICAgICAgICAgIDxJdGVtIEtleT0iVHJhbnNhY3Rpb24iPjE8L0l0ZW0+CiAgICAgICAgICAgIDwvSGFzaD4KICAgICAgICA8L1ZhbHVlPgogICAgPC9TZXR0aW5nPgo8L290cnNfY29uZmlnPg==</File>
-        <File Location="Custom/Kernel/System/Ticket/Event/TicketOwnerList.pm" Permission="660" Encode="Base64">IyAtLQojIENvcHlyaWdodCAoQykgMjAwMS0yMDIxIE9UUlMgQUcsIGh0dHBzOi8vb3Rycy5jb20vCiMgQ29weXJpZ2h0IChDKSAyMDIxIFpudW55IEdtYkgsIGh0dHBzOi8vem51bnkub3JnLwojIENvcHlyaWdodCAoQykgMjAyMiBtby1hemZhciwgaHR0cHM6Ly9naXRodWIuY29tL21vLWF6ZmFyLwojIC0tCiMgVGhpcyBzb2Z0d2FyZSBjb21lcyB3aXRoIEFCU09MVVRFTFkgTk8gV0FSUkFOVFkuIEZvciBkZXRhaWxzLCBzZWUKIyB0aGUgZW5jbG9zZWQgZmlsZSBDT1BZSU5HIGZvciBsaWNlbnNlIGluZm9ybWF0aW9uIChHUEwpLiBJZiB5b3UKIyBkaWQgbm90IHJlY2VpdmUgdGhpcyBmaWxlLCBzZWUgaHR0cHM6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy9ncGwtMy4wLnR4dC4KIyAtLQoKcGFja2FnZSBLZXJuZWw6OlN5c3RlbTo6VGlja2V0OjpFdmVudDo6VGlja2V0T3duZXJMaXN0OwoKdXNlIHN0cmljdDsKdXNlIHdhcm5pbmdzOwoKdXNlIEtlcm5lbDo6U3lzdGVtOjpWYXJpYWJsZUNoZWNrIHF3KDphbGwpOwoKb3VyIEBPYmplY3REZXBlbmRlbmNpZXMgPSAoCiAgICAnS2VybmVsOjpTeXN0ZW06OkxvZycsCiAgICAnS2VybmVsOjpTeXN0ZW06OlRpY2tldCcsCik7CgpzdWIgbmV3IHsKICAgIG15ICggJFR5cGUsICVQYXJhbSApID0gQF87CgogICAgIyBhbGxvY2F0ZSBuZXcgaGFzaCBmb3Igb2JqZWN0CiAgICBteSAkU2VsZiA9IHt9OwogICAgYmxlc3MoICRTZWxmLCAkVHlwZSApOwoKICAgIHJldHVybiAkU2VsZjsKfQoKc3ViIFJ1biB7CiAgICBteSAoICRTZWxmLCAlUGFyYW0gKSA9IEBfOwoKCWxvY2FsICRLZXJuZWw6Ok9NID0gS2VybmVsOjpTeXN0ZW06Ok9iamVjdE1hbmFnZXItPm5ldygKICAgICAgICAnS2VybmVsOjpTeXN0ZW06OkxvZycgPT4gewogICAgICAgICAgICBMb2dQcmVmaXggPT4gJ1RpY2tldE93bmVyTGlzdCcsIAogICAgICAgIH0sCiAgICApOwoJCiAgICAjIGNoZWNrIG5lZWRlZCBzdHVmZgogICAgZm9yIG15ICROZWVkZWQgKHF3KERhdGEgRXZlbnQgQ29uZmlnIFVzZXJJRCkpIHsKICAgICAgICBpZiAoICEkUGFyYW17JE5lZWRlZH0gKSB7CiAgICAgICAgICAgICRLZXJuZWw6Ok9NLT5HZXQoJ0tlcm5lbDo6U3lzdGVtOjpMb2cnKS0+TG9nKAogICAgICAgICAgICAgICAgUHJpb3JpdHkgPT4gJ2Vycm9yJywKICAgICAgICAgICAgICAgIE1lc3NhZ2UgID0+ICJOZWVkICROZWVkZWQhIiwKICAgICAgICAgICAgKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KICAgIH0KCiAgICBpZiAoICEkUGFyYW17RGF0YX0tPntUaWNrZXRJRH0gKSB7CiAgICAgICAgJEtlcm5lbDo6T00tPkdldCgnS2VybmVsOjpTeXN0ZW06OkxvZycpLT5Mb2coCiAgICAgICAgICAgIFByaW9yaXR5ID0+ICdlcnJvcicsCiAgICAgICAgICAgIE1lc3NhZ2UgID0+ICJOZWVkIFRpY2tldElEIGluIERhdGEhIiwKICAgICAgICApOwogICAgICAgIHJldHVybjsKICAgIH0KCglpZiAoICEkUGFyYW17Q29uZmlnfS0+e0R5bmFtaWNGaWVsZH0gKQoJewoJCSAkS2VybmVsOjpPTS0+R2V0KCdLZXJuZWw6OlN5c3RlbTo6TG9nJyktPkxvZygKICAgICAgICAgICAgUHJpb3JpdHkgPT4gJ2Vycm9yJywKICAgICAgICAgICAgTWVzc2FnZSAgPT4gIkR5bmFtaWNGaWVsZCBOYW1lICh0aWNrZXQtdGV4dCkgbXVzdCBiZSBkZWZpbmUgaW4gVGlja2V0OjpFdmVudE1vZHVsZVBvc3QjIyMzMTIwLVRpY2tldE93bmVyTGlzdCB0byBzdG9yZSB0aGUgZGF0YSEiLAogICAgICAgICk7CiAgICAgICAgcmV0dXJuOwoJfQoJCgkjIGdldCBkeW5hbWljIGZpZWxkIG9iamVjdHMKICAgIG15ICREeW5hbWljRmllbGRPYmplY3QgICAgICAgID0gJEtlcm5lbDo6T00tPkdldCgnS2VybmVsOjpTeXN0ZW06OkR5bmFtaWNGaWVsZCcpOwogICAgbXkgJER5bmFtaWNGaWVsZEJhY2tlbmRPYmplY3QgPSAkS2VybmVsOjpPTS0+R2V0KCdLZXJuZWw6OlN5c3RlbTo6RHluYW1pY0ZpZWxkOjpCYWNrZW5kJyk7CgkKCW15ICREeW5hbWljRmllbGQgPSAkRHluYW1pY0ZpZWxkT2JqZWN0LT5EeW5hbWljRmllbGRHZXQoCiAgICAgICAgTmFtZSA9PiAkUGFyYW17Q29uZmlnfS0+e0R5bmFtaWNGaWVsZH0sCiAgICApOwoJCgkkRHluYW1pY0ZpZWxkLT57T2JqZWN0VHlwZX0gfHw9IDA7CgkkRHluYW1pY0ZpZWxkLT57RmllbGRUeXBlfSB8fD0gMDsKCQoJaWYgKCAkRHluYW1pY0ZpZWxkLT57T2JqZWN0VHlwZX0gbmUgJ1RpY2tldCcgKQoJewoJCSAkS2VybmVsOjpPTS0+R2V0KCdLZXJuZWw6OlN5c3RlbTo6TG9nJyktPkxvZygKICAgICAgICAgICAgUHJpb3JpdHkgPT4gJ2Vycm9yJywKICAgICAgICAgICAgTWVzc2FnZSAgPT4gIk9iamVjdFR5cGUgZm9yICRQYXJhbXtDb25maWd9LT57RHluYW1pY0ZpZWxkfSBpcyBub3QgVGlja2V0IG9yIE5vdCBFeGlzdGVkLiEiLAogICAgICAgICk7CiAgICAgICAgcmV0dXJuOwoJfQoJCglpZiAoICREeW5hbWljRmllbGQtPntGaWVsZFR5cGV9IG5lICdUZXh0JyApCgl7CgkJICRLZXJuZWw6Ok9NLT5HZXQoJ0tlcm5lbDo6U3lzdGVtOjpMb2cnKS0+TG9nKAogICAgICAgICAgICBQcmlvcml0eSA9PiAnZXJyb3InLAogICAgICAgICAgICBNZXNzYWdlICA9PiAiRmllbGRUeXBlIGZvciAkUGFyYW17Q29uZmlnfS0+e0R5bmFtaWNGaWVsZH0gaXMgbm90IFRleHQgb3IgTm90IEV4aXN0ZWQuISIsCiAgICAgICAgKTsKICAgICAgICByZXR1cm47Cgl9CgkKICAgICMgZ2V0IHRpY2tldCBvYmplY3QKICAgIG15ICRUaWNrZXRPYmplY3QgPSAkS2VybmVsOjpPTS0+R2V0KCdLZXJuZWw6OlN5c3RlbTo6VGlja2V0Jyk7CgoJI2dldCBsaXN0IG9mIHRpY2tldCBvd25lcgoJbXkgQE93bmVycyA9ICRUaWNrZXRPYmplY3QtPlRpY2tldE93bmVyTGlzdCgKICAgICAgICBUaWNrZXRJRCA9PiAkUGFyYW17RGF0YX0tPntUaWNrZXRJRH0sCiAgICApOwoJCglteSBAT3duZXJBcnJheTsKCWZvcmVhY2ggbXkgJFRpY2tldE93bmVyIChAT3duZXJzKQoJewoJCXB1c2ggQE93bmVyQXJyYXksICRUaWNrZXRPd25lci0+e1VzZXJGdWxsbmFtZX07Cgl9CgkKCSNyZW1vdmUgZHVwbGljYXRlIHZhbHVlCglteSAlVW5pcXVlT3duZXIgPSBtYXB7JF89PjF9QE93bmVyQXJyYXk7CglAT3duZXJBcnJheSA9IGtleXMgJVVuaXF1ZU93bmVyOwoJCglteSAkT3duZXJTdHJnID0gam9pbignLCAnLCBAT3duZXJBcnJheSk7CgkKCSMgc2V0IHRoZSB2YWx1ZQogICAgbXkgJFN1Y2Nlc3MgPSAkRHluYW1pY0ZpZWxkQmFja2VuZE9iamVjdC0+VmFsdWVTZXQoCiAgICAgICAgRHluYW1pY0ZpZWxkQ29uZmlnID0+ICREeW5hbWljRmllbGQsCiAgICAgICAgT2JqZWN0SUQgICAgICAgICAgID0+ICRQYXJhbXtEYXRhfS0+e1RpY2tldElEfSwKICAgICAgICBWYWx1ZSAgICAgICAgICAgICAgPT4gJE93bmVyU3RyZywKICAgICAgICBVc2VySUQgICAgICAgICAgICAgPT4gJFBhcmFte1VzZXJJRH0sCiAgICApOwoKICAgIHJldHVybiAxOwp9CgoxOwo=</File>
+        <File Location="Kernel/Config/Files/XML/ZZZTicketOwnerList.xml" Permission="660" Encode="Base64">
+PASTE_BASE64_XML_HERE
+        </File>
+
+        <File Location="Custom/Kernel/System/Ticket/Event/TicketOwnerList.pm" Permission="660" Encode="Base64">
+PASTE_BASE64_PM_HERE
+        </File>
     </Filelist>
 </otrs_package>
